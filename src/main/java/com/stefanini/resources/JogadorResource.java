@@ -8,11 +8,17 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@ApplicationPath("/jogador")
+@Path("/jogador")
 public class JogadorResource {
 
     @Inject
     JogadorService jogadorService;
+
+    @GET
+    @Produces("text/plain")
+    public String hello() {
+        return "Hello RESTEasy";
+    }
 
     @GET
     @Path("/{id}")
