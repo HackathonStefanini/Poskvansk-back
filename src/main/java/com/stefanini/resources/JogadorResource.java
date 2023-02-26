@@ -16,12 +16,6 @@ public class JogadorResource {
 
     @Inject
     JogadorService jogadorService;
-//
-//    @GET
-//    @Produces("text/plain")
-//    public String hello() {
-//        return "Hello RESTEasy";
-//    }
 
     @GET
     @Path("/{id}")
@@ -35,11 +29,10 @@ public class JogadorResource {
         return Response.status(Response.Status.OK).entity(jogadorService.listarTodos()).build();
     }
 
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response salvar(JogadorDTO jogadorDTO) {
+    public Response salvar(JogadorDTO jogadorDTO) throws Exception {
 //        jogadorService.salvar(jogadorDTO);
 //        return Response.status(Response.Status.CREATED).build();
         return Response.ok(jogadorService.salvar(jogadorDTO)).build();
