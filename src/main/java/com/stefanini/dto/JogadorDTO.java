@@ -1,49 +1,31 @@
-package com.stefanini.entity;
+package com.stefanini.dto;
 
-import com.stefanini.dto.JogadorDTO;
+import com.stefanini.entity.Jogador;
+import com.stefanini.entity.Stefamon;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(schema = "tb_jogador")
-public class Jogador {
+public class JogadorDTO {
 
-    @Id
-    @Column(name = "id_jogador")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true)
-    @NotBlank(message = "É necessário um nickname!")
     private String nickname;
-
-    @Column
-    @NotBlank(message = "É necessária uma senha!")
-//    // NÃO IMPLEMENTAR SIZE AQUI PORQUE A SENHA VAI SER CRIPTOGRAFADA
     private String password;
-
-    @Column()
     private BigDecimal saldo;
-
-
-    @ManyToMany
-    @JoinTable(name = "Jogador_Stefamon",
-            joinColumns = {@JoinColumn(name = "IdJogador")},
-            inverseJoinColumns = {@JoinColumn(name = "IdStefamon")})
     private List<Stefamon> stefamons = new ArrayList<>();
 
-    public Jogador() {
+    public JogadorDTO() {
     }
 
-    public Jogador(JogadorDTO jogadorDTO) {
-        this.nickname = jogadorDTO.getNickname();
-        this.password = jogadorDTO.getPassword();
-        this.saldo = jogadorDTO.getSaldo();
+    public JogadorDTO(Jogador jogador) {
+        this.id = jogador.getId();
+        this.nickname = jogador.getNickname();
+        this.password = jogador.getPassword();
+        this.saldo = jogador.getSaldo();
+        this.stefamons = jogador.getStefamons();
     }
+
     public Long getId() {
         return id;
     }

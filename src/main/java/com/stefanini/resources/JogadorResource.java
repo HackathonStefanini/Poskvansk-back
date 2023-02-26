@@ -1,14 +1,17 @@
 package com.stefanini.resources;
 
+import com.stefanini.dto.JogadorDTO;
 import com.stefanini.entity.Jogador;
 import com.stefanini.service.JogadorService;
+import org.jboss.logging.annotations.Pos;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@ApplicationPath("/jogador")
+@Path("/jogador")
 public class JogadorResource {
 
     @Inject
@@ -27,22 +30,39 @@ public class JogadorResource {
     }
 
     @POST
-    public Response salvar(@Valid Jogador jogador) {
-        jogadorService.salvar(jogador);
-        return Response.status(Response.Status.CREATED).build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response salvar(JogadorDTO jogadorDTO) throws Exception {
+//        jogadorService.salvar(jogadorDTO);
+//        return Response.status(Response.Status.CREATED).build();
+        return Response.ok(jogadorService.salvar(jogadorDTO)).build();
+
     }
 
-    @POST
-    public Response alterar(@Valid Jogador jogador) {
-        jogadorService.alterar(jogador);
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response alterar(Jogador jogadorDTO) {
+        jogadorService.alterar(jogadorDTO);
         return Response.status(Response.Status.OK).build();
     }
 
-    @POST
+    @DELETE
     @Path("/{id}")
     public Response deletar(@PathParam("id") Long id) {
-        jogadorService.deletar(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        try {
+            jogadorService.deletar(id);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @POST
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(Jogador jogadorDTO) throws Exception {
+
+        return Response.status(Response.Status.OK).entity(jogadorService.login(jogadorDTO)).build();
     }
 
 }
